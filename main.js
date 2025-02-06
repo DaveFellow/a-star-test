@@ -224,7 +224,7 @@ function clearPath() {
     document.querySelectorAll('.path').forEach(tile => tile.classList.remove('path'));
 }
 
-function fillObstaclesHoles() {
+function fixDiagonalObstacles() {
     for (let row = 1; row < tiles.length - 1; row++) {
         for (let column = 1; column < tiles[row].length - 1; column++) {
             if (getTile(row, column).isObstacle === false) continue;
@@ -263,5 +263,5 @@ document.querySelector('#obs').addEventListener('change', () => localStorage.set
 document.querySelector('.refresh-btn').addEventListener('click', () => window.location.reload());
 
 tiles = setTilesData(document.querySelector('#obs').value);
-fillObstaclesHoles();
+fixDiagonalObstacles();
 renderTiles();
