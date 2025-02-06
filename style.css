@@ -1,0 +1,129 @@
+body {
+    background-color: #ccc;
+    font-family: sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.grid {
+    display: flex;
+    flex-direction: column;
+
+    width: 1000px;
+    height: 1000px;
+
+    border: 1px solid #000;
+}
+
+.controls {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+}
+
+input {
+    padding: .3rem;
+    border-radius: 3px;
+    border: 1px solid;
+    margin-bottom: 2rem;
+}
+
+.refresh-btn {
+    height: 2rem;
+    padding: .3rem;
+    background-color: rgb(44, 139, 194);
+    color: #fff;
+    border: 0;
+    border-radius: 3px;
+    transition: .2s ease-in-out;
+    cursor: pointer;
+}
+
+.refresh-btn:hover {
+    background-color: rgb(17, 68, 102);
+}
+
+.refresh-btn:active {
+    background-color: rgb(0, 0, 0);
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+}
+
+.tile {
+    display: grid;
+    align-content: center;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+
+    border: 1px solid #dadada;
+    padding: .2rem;
+
+    width: 50px;
+    height: 50px;
+    font-size: 12px;
+    background-color: #fff;
+}
+
+.weight-g, .weight-h {
+    grid-column: span 1;
+}
+
+.weight-g {
+    justify-items: start;
+}
+
+.weight-h {
+    justify-self: end;
+}
+
+.weight-f {
+    grid-column: span 2;
+    justify-self: center;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.open {
+    background-color: rgb(253, 255, 130);
+}
+
+.closed {
+    background-color: rgb(39, 141, 209);
+    color: #fff;
+}
+
+.obstacle {
+    background-color: #000;
+}
+
+.origin {
+    background-color: blue;
+    color: #fff;
+}
+
+.destination {
+    background-color: red;
+}
+
+.path {
+    background-color: rgb(0, 255, 0);
+    color: #000000;
+}
+
+.tile:not(.origin):not(.destination):not(.obstacle):hover {
+    background-color: rgb(231, 231, 231);
+    color: #000;
+    cursor: pointer;
+}
