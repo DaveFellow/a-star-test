@@ -186,7 +186,6 @@ function search() {
         closedTiles.push(current);
 
         if (current === destination) {
-            console.log('found');
             setPath();
             return;
         }
