@@ -236,9 +236,44 @@ function clearPath() {
     document.querySelectorAll('.path').forEach(tile => tile.classList.remove('path'));
 }
 
+function fillObstaclesHoles() {
+    for (let row = 1; row < tiles.length - 1; row++) {
+        for (let column = 1; column < tiles[row].length - 1; column++) {
+            if (getTile(row, column).isObstacle === false) continue;
+
+            const obsTopLeft = () => getTile(row - 1, column - 1)?.isObstacle;
+            const obsTopRight = () => getTile(row - 1, column + 1)?.isObstacle;
+            const obsBottomLeft = () => getTile(row + 1, column - 1)?.isObstacle;
+            const obsBottomRight = () => getTile(row + 1, column + 1)?.isObstacle;
+        
+            const noObsTop = () => getTile(row - 1, column)?.isObstacle === false;
+            const noObsRight = () => getTile(row, column + 1)?.isObstacle === false;
+            const noObsLeft = () => getTile(row, column - 1)?.isObstacle === false;
+            const noObsBottom = () => getTile(row + 1, column)?.isObstacle === false;
+        
+            if (obsTopLeft() && noObsTop() && noObsLeft()) {
+                getTile(row - 1, column - 1).isObstacle = false;
+            }
+        
+            if (obsTopRight() && noObsTop() && noObsRight()) {
+                getTile(row - 1, column + 1).isObstacle = false;
+            }
+        
+            if (obsBottomLeft() && noObsBottom() && noObsLeft()) {
+                getTile(row + 1, column - 1).isObstacle = false;
+            }
+        
+            if (obsBottomRight() && noObsBottom() && noObsRight()) {
+                getTile(row + 1, column + 1).isObstacle = false;
+            }
+        }
+    }
+}
+
 document.querySelector('#obs').value = localStorage.getItem('obs') ?? 0.2;
 document.querySelector('#obs').addEventListener('change', () => localStorage.setItem('obs', document.querySelector('#obs').value));
 document.querySelector('.refresh-btn').addEventListener('click', () => window.location.reload());
 
 tiles = setTilesData(document.querySelector('#obs').value);
+fillObstaclesHoles();
 renderTiles();
