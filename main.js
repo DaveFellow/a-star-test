@@ -138,21 +138,6 @@ function setDestination(row, column) {
     getTileElem(row, column).classList.add('destination');
 }
 
-function setNeighbors() {
-    const neighbors = findNeighbors(current.row, current.column);
-
-    for (let neighbor of neighbors) {
-        const inLine = neighbor.row === current.row || neighbor.column === current.column;
-        const g = inLine ? 10 : 14;
-        const h = getDistance(neighbor, destination);
-
-        setWeight(neighbor.row, neighbor.column, { g, h });
-        getTileElem(neighbor.row, neighbor.column).classList.add('open');
-    }
-
-    return neighbors;
-}
-
 function findNeighbors(row, column) {
     return [
         { row: row - 1, column },
@@ -190,23 +175,26 @@ function search() {
             return;
         }
 
-        const neighbors = setNeighbors();
+        const neighbors = findNeighbors(current.row, current.column);
         
         for (let neighbor of neighbors) {
             if (closedTiles.includes(neighbor)) {
                 continue;
             }
 
-            neighbor.g = current.g + neighbor.g;
-            neighbor.h = getDistance(neighbor, destination);
-            neighbor.f = neighbor.g + neighbor.h;
+            const inLine = neighbor.row === current.row || neighbor.column === current.column;
+            const g = (inLine ? 10 : 14) + current.g;
+            const h = getDistance(neighbor, destination);
+            const possibleNeighbor = { row: neighbor.row, column: neighbor.column, g, h };
 
-            const tileInSamePosition = openTiles.find(tile => tile.row === neighbor.row && tile.column === neighbor.column);
+            const tileInSamePosition = openTiles.find(tile => tile.row === possibleNeighbor.row && tile.column === possibleNeighbor.column);
             if (tileInSamePosition) {
-                if (neighbor.g >= tileInSamePosition.g) {
+                if (possibleNeighbor.g > tileInSamePosition.g) {
                     continue;
                 }
             }
+            setWeight(neighbor.row, neighbor.column, { g, h });
+            getTileElem(neighbor.row, neighbor.column).classList.add('open');
             neighbor.parent = current;
             openTiles.push(neighbor);
         }
