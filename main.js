@@ -158,7 +158,7 @@ function findNeighbors(row, column) {
 }
 
 function getDistance(tile1, tile2) {
-    return Math.abs(tile1.row - tile2.row) + Math.abs(tile1.column - tile2.column);
+    return (Math.abs(tile1.row - tile2.row) + Math.abs(tile1.column - tile2.column)) * 10;
 }
  
 function search() {
